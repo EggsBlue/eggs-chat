@@ -11,6 +11,7 @@ import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
+import org.nutz.mvc.annotation.ChainBy;
 import org.nutz.mvc.annotation.Encoding;
 import org.nutz.mvc.annotation.Modules;
 
@@ -21,6 +22,7 @@ import org.nutz.mvc.annotation.Modules;
 @IocBean(create = "init")
 @Encoding(input = "UTF-8", output = "UTF-8")
 @Modules(packages = "cn.eggschat")
+@ChainBy(args = "config/chain/mvc-chain.json")
 public class EggsChatLauncher {
     private static final Log log = Logs.get();
 

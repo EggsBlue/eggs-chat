@@ -3,13 +3,16 @@ package cn.eggschat.entity;
 import org.nutz.dao.entity.annotation.*;
 import org.nutz.dao.interceptor.annotation.PrevInsert;
 
+import java.io.Serializable;
+
 
 /**
-* @author: eggsblue
-* @date: 2020/8/29 12:54
-**/
+ * @author: eggsblue
+ * @date: 2020/8/29 12:54
+ **/
 @Table("sys_user")
-public class Sys_user {
+@TableIndexes({@Index(name = "INDEX__EMAIL", fields = {"email"}, unique = true)})
+public class Sys_user  implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Name
@@ -55,7 +58,7 @@ public class Sys_user {
 
     @Column
     @Comment("is admin")
-    @ColDefine(type = ColType.INT,width = 1)
+    @ColDefine(type = ColType.INT, width = 1)
     @Default("0")
     private Boolean admin;
 

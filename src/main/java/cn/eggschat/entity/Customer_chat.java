@@ -5,13 +5,15 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.nutz.dao.entity.annotation.*;
 import org.nutz.dao.interceptor.annotation.PrevInsert;
 
+import java.io.Serializable;
+
 
 /**
  * @author: eggsblue
  * @date: 2020/8/29 12:54
  **/
 @Table("customer_chat")
-public class Customer_chat {
+public class Customer_chat  implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Name

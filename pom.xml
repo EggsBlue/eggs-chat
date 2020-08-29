@@ -101,6 +101,12 @@
             <version>${logback.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+            <version>1.4</version>
+        </dependency>
+
     </dependencies>
 
 

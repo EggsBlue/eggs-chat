@@ -3,13 +3,16 @@ package cn.eggschat.entity;
 import org.nutz.dao.entity.annotation.*;
 import org.nutz.dao.interceptor.annotation.PrevInsert;
 
+import java.io.Serializable;
+
 
 /**
 * @author: eggsblue
 * @date: 2020/8/29 12:54
 **/
 @Table("sys_unit")
-public class Sys_unit {
+@TableIndexes({@Index(name = "INDEX_TOKEN", fields = {"token"}, unique = true)})
+public class Sys_unit implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Name
@@ -50,7 +53,7 @@ public class Sys_unit {
     private String placeholder;
 
     @Column
-    @Comment("placeholder")
+    @Comment("wedget color")
     @ColDefine(type = ColType.VARCHAR, width = 50)
     private String color;
 

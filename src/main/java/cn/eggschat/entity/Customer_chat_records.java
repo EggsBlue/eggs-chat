@@ -5,13 +5,15 @@ import cn.eggschat.enums.CustomerChatRecordsMsgTypeEnum;
 import org.nutz.dao.entity.annotation.*;
 import org.nutz.dao.interceptor.annotation.PrevInsert;
 
+import java.io.Serializable;
+
 
 /**
  * @author: eggsblue
  * @date: 2020/8/29 12:54
  **/
 @Table("customer_chat_records")
-public class Customer_chat_records {
+public class Customer_chat_records  implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Name
