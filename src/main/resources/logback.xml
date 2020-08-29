@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="false" scanPeriod="60000" debug="false">
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger:%line - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--            <fileNamePattern>logs/jlink_operatorsApi_-%d{yyyy-MM-dd}.log</fileNamePattern>-->
+            <fileNamePattern>logs/eggs-chat_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 日志保留天数 -->
+            <maxHistory>10</maxHistory>
+            <!-- 日志文件上限大小，达到指定大小后删除旧的日志文件 -->
+            <totalSizeCap>5GB</totalSizeCap>
+            <!-- 每个日志文件的最大值 -->
+            <maxFileSize>1GB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %logger:%line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 异步输出 -->
+    <appender name ="ASYNC" class= "ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>256</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref ="FILE"/>
+    </appender>
+
+    <logger name="java" additivity="false" />
+    <logger name="org.eclipse.jetty" level="INFO">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="ASYNC" />
+    </root>
+
+</configuration>
