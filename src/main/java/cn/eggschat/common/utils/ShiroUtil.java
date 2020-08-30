@@ -1,5 +1,7 @@
 package cn.eggschat.common.utils;
 
+import cn.eggschat.entity.Sys_unit;
+import cn.eggschat.entity.Sys_user;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -235,7 +237,7 @@ public class ShiroUtil {
                 }
 
             } catch (Exception e) {
-              log.error(e);
+                log.error(e);
             }
         }
 
@@ -322,4 +324,16 @@ public class ShiroUtil {
 
         return "-";
     }
+
+    public Sys_user getLoginUser() {
+        try {
+            Object principal = getPrincipal();
+
+            return principal != null ? (Sys_user) principal : null;
+        } catch (Exception e) {
+            log.error(e);
+        }
+        return null;
+    }
+
 }

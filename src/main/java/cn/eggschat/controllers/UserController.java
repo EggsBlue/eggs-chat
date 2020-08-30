@@ -1,7 +1,10 @@
 package cn.eggschat.controllers;
 
+import cn.eggschat.common.utils.ShiroUtil;
 import cn.eggschat.dto.Result;
+import cn.eggschat.entity.Sys_unit;
 import cn.eggschat.entity.Sys_user;
+import cn.eggschat.service.SysUnitService;
 import cn.eggschat.service.SysUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -16,8 +19,11 @@ import org.nutz.dao.Cnd;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
+import org.nutz.lang.util.NutMap;
 import org.nutz.mvc.adaptor.JsonAdaptor;
 import org.nutz.mvc.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author: eggsblue
@@ -30,6 +36,12 @@ public class UserController extends AbsController {
 
     @Inject
     private SysUserService sysUserService;
+
+    @Inject
+    private SysUnitService sysUnitService;
+
+    @Inject
+    private ShiroUtil shiroUtil;
 
     @At("/login")
     @Ok("re")
@@ -104,7 +116,7 @@ public class UserController extends AbsController {
     @At("/doReg")
     @Ok("json")
     @Filters
-    public Result doReg( @Param("email") String email,@Param("password") String password, @Param("compayName") String compayName) {
+    public Result doReg(@Param("email") String email, @Param("password") String password, @Param("compayName") String compayName) {
         try {
             if (Strings.isBlank(password)) {
                 return error("请填写密码");
@@ -164,5 +176,48 @@ public class UserController extends AbsController {
             return error("系统繁忙,请稍后再试");
         }
     }
+
+    /**
+     * 账户-概述
+     *
+     * @param uid
+     * @param unitId
+     * @return
+     */
+    @At("/overview")
+    @Ok("beetl:/user/overview.html")
+    public void overview(@Attr("uid") String uid, @Attr("unitId") String unitId, HttpServletRequest request) {
+        Sys_user user = sysUserService.fetch(uid);
+        request.setAttribute("user", user);
+    }
+
+
+    /**
+     * 修改公司名称
+     *
+     * @return
+     */
+    @At("/changeCN")
+    @Ok("json")
+    @Filters
+    public Result changeCN(@Param("cn") String cn, @Attr("unitId") String unitId) {
+        try {
+            if (Strings.isBlank(cn)) {
+                return error("请填写密码");
+            }
+            Sys_unit fetch = sysUnitService.fetch(unitId);
+            if (fetch.getName().equals(cn)) {
+                return success();
+            }
+            Sys_user loginUser = shiroUtil.getLoginUser();
+            loginUser.getUnit().setName(cn);
+            sysUnitService.update(Chain.make("name", cn), Cnd.where("id", "=", unitId));
+            return success();
+        } catch (Exception e) {
+            log.error(e);
+            return error("系统繁忙,请稍后再试");
+        }
+    }
+
 
 }

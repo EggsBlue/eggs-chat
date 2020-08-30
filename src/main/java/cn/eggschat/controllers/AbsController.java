@@ -1,6 +1,7 @@
 package cn.eggschat.controllers;
 
 import cn.eggschat.dto.Result;
+import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
@@ -13,6 +14,9 @@ public abstract class AbsController {
 
     protected Result success(String msg){
         return Result.SUCCESS(msg);
+    }
+    protected Result success(NutMap map){
+        return Result.SUCCESS().setData(map);
     }
 
     protected Result error(){

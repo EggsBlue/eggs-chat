@@ -18,6 +18,8 @@
 *.tar.gz
 *.rar
 
+target/
+
 # config files
 *.iml
 

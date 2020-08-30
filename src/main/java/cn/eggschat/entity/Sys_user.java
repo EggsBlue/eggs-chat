@@ -72,6 +72,9 @@ public class Sys_user  implements Serializable {
     @ColDefine(type = ColType.VARCHAR, width = 255)
     private String device_info;
 
+    @One(field = "unit_id")
+    private Sys_unit unit;
+
     public String getId() {
         return id;
     }
@@ -158,5 +161,13 @@ public class Sys_user  implements Serializable {
 
     public void setDevice_info(String device_info) {
         this.device_info = device_info;
+    }
+
+    public Sys_unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Sys_unit unit) {
+        this.unit = unit;
     }
 }
